@@ -63,6 +63,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1 text-center">
       <ul class="nav navbar-nav text-center">
             <li class="navbar-menu" ><a href="index.html">Recommendation System <span class="sr-only">(current)</span></a></li>
+						<li class="navbar-menu" ><a href="search.html">Search Function <span class="sr-only">(current)</span></a></li>
+						<li class="navbar-menu" ><a href="similarity.php">Similarity Function <span class="sr-only">(current)</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -75,10 +77,19 @@
 						<form method="post" action="process.php">
 							<fieldset>
 								<legend><span class="number"></span> Info</legend>
-									Name : <input type="text" name="user_name" placeholder="Enter Your Name" /><br>
-									Email : <input type="email" name="user_email" placeholder="Enter Your Email" /><br>
-									Message : <textarea name="user_text"></textarea><br>
-								
+									Anniversary year : <input type="number" name="years_married" placeholder="Enter Number of Years Married" /><br>
+									Gift style :
+									<select name="giftstyle">
+										<option value="Modern">Modern</option>
+											<option value="Traditional">Traditional</option>
+									</select>
+									Masculine or Feminine :
+									<select name="M_F">
+										<option value="Masculine">Masculine</option>
+											<option value="Feminine">Feminine</option>
+									</select>
+									Gift result : <input type="text" name="giftname" placeholder="Chosen gift result" /><br>
+
 								</fieldset>
 								<input type="submit" value="Submit" />
 					</form>

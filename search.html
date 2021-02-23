@@ -1,5 +1,4 @@
-
-<!doctype html>
+<html>
 
 <html lang="en">
 	<head>
@@ -25,10 +24,9 @@
 	  <![endif]-->
 	</head>
 
-	<body style="background-color:white;text-align:center">
+<body style="background-color:white;text-align:center">
 
-
-	<div class="container">
+  <div class="container">
 		<div class="row margin-top-30">
 			<div class="col-lg-12">
 			 	<a href="index.html">
@@ -63,62 +61,34 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1 text-center">
       <ul class="nav navbar-nav text-center">
-            <li class="navbar-menu" ><a href="index.html">Return to previous page <span class="sr-only">(current)</span></a></li>
+            <li class="navbar-menu" ><a href="index.html">Recommendation System <span class="sr-only">(current)</span></a></li>
+						<li class="navbar-menu" ><a href="search.html">Search Function <span class="sr-only">(current)</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {//Check it is comming from a form
-
-	//mysql credentials
-	$mysql_host = "localhost";
-	$mysql_username = "root";
-	$mysql_password = "password";
-	$mysql_database = "giftdata";
-
-	$u_married = filter_var($_POST["years_married"], FILTER_SANITIZE_NUMBER_INT); //set PHP variables like this so we can use them anywhere in code below
-	$u_giftstyle = filter_var($_POST["giftstyle"], FILTER_SANITIZE_STRING);
-	$u_morf = filter_var($_POST["M_F"], FILTER_SANITIZE_STRING);
-	$u_giftname = filter_var($_POST["giftname"], FILTER_SANITIZE_STRING);
-
-	if (empty($u_married)){
-		die("How many years have you been married?");
-	}
-	if (empty($u_giftstyle)){
-		die("Would you prefer a modern or traditional style of gift?");
-	}
-
-	if (empty($u_morf)){
-		die("Would you prefer masculine or feminine gift suggestions?");
-	}
-
-	if (empty($u_giftname)){
-		die("What type of gift fits the criteria?");
-	}
+<div class="container text-left form-style-5">
+  <h4><b>Find your perfect gift using the search bars below!</h4></b><br/>
 
 
-	//Open a new connection to the MySQL server
-	//see https://www.sanwebe.com/2013/03/basic-php-mysqli-usage for more info
-	$mysqli = new mysqli($mysql_host, $mysql_username, $mysql_password, $mysql_database);
+<form action="search.php" method="post">
+Anniversary Year <input type="number" name="anniversary"><br>
+Gift Style
+<select name="gifttype">
+ <option value="Modern">Modern</option>
+    <option value="Traditional">Traditional</option>
+</select>
+Masculine or Feminine <select name="MF">
+ <option value="Masculine">Masculine</option>
+    <option value="Feminine">Feminine</option>
+</select>
+<br>
+<input type ="submit">
+</form>
 
-	//Output any connection error
-	if ($mysqli->connect_error) {
-		die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-	}
+<div class="form-style-5">
 
-	$statement = $mysqli->prepare("INSERT INTO gifts_data (years_married, giftstyle, M_F, giftname) VALUES(?, ?, ?, ?)"); //prepare sql insert query
-	//bind parameters for markers, where (s = string, i = integer, d = double,  b = blob)
-	$statement->bind_param('ssss', $u_married, $u_giftstyle, $u_morf, $u_giftname); //bind values and execute insert query
-
-	if($statement->execute()){
-		print "Hello, your message has been saved!";
-	}else{
-		print $mysqli->error; //show mysql error if any
-	}
-}
-?>
 
 <ul class="container-fluid margin-top-50 margin-bottom-50" style="padding:5px; background-color:black"">  </ul>
 

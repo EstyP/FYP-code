@@ -63,62 +63,49 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1 text-center">
       <ul class="nav navbar-nav text-center">
-            <li class="navbar-menu" ><a href="index.html">Return to previous page <span class="sr-only">(current)</span></a></li>
+            <li class="navbar-menu" ><a href="search.html">Return to previous page <span class="sr-only">(current)</span></a></li>f
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {//Check it is comming from a form
 
-	//mysql credentials
-	$mysql_host = "localhost";
-	$mysql_username = "root";
-	$mysql_password = "password";
-	$mysql_database = "giftdata";
-
-	$u_married = filter_var($_POST["years_married"], FILTER_SANITIZE_NUMBER_INT); //set PHP variables like this so we can use them anywhere in code below
-	$u_giftstyle = filter_var($_POST["giftstyle"], FILTER_SANITIZE_STRING);
-	$u_morf = filter_var($_POST["M_F"], FILTER_SANITIZE_STRING);
-	$u_giftname = filter_var($_POST["giftname"], FILTER_SANITIZE_STRING);
-
-	if (empty($u_married)){
-		die("How many years have you been married?");
-	}
-	if (empty($u_giftstyle)){
-		die("Would you prefer a modern or traditional style of gift?");
-	}
-
-	if (empty($u_morf)){
-		die("Would you prefer masculine or feminine gift suggestions?");
-	}
-
-	if (empty($u_giftname)){
-		die("What type of gift fits the criteria?");
-	}
+$anniversary = $_POST['anniversary'];
+$gifttype = $_POST['gifttype'];
+$MF = $_POST['MF'];
 
 
-	//Open a new connection to the MySQL server
-	//see https://www.sanwebe.com/2013/03/basic-php-mysqli-usage for more info
-	$mysqli = new mysqli($mysql_host, $mysql_username, $mysql_password, $mysql_database);
+$servername = "localhost";
+$username = "root";
+$password = "password";
+$db = "giftdata";
 
-	//Output any connection error
-	if ($mysqli->connect_error) {
-		die('Error : ('. $mysqli->connect_errno .') '. $mysqli->connect_error);
-	}
+$conn = new mysqli($servername, $username, $password, $db);
 
-	$statement = $mysqli->prepare("INSERT INTO gifts_data (years_married, giftstyle, M_F, giftname) VALUES(?, ?, ?, ?)"); //prepare sql insert query
-	//bind parameters for markers, where (s = string, i = integer, d = double,  b = blob)
-	$statement->bind_param('ssss', $u_married, $u_giftstyle, $u_morf, $u_giftname); //bind values and execute insert query
-
-	if($statement->execute()){
-		print "Hello, your message has been saved!";
-	}else{
-		print $mysqli->error; //show mysql error if any
-	}
+if ($conn->connect_error){
+	die("Connection failed: ". $conn->connect_error);
 }
+
+$sql = "select * from gifts_data
+									WHERE years_married like '%$anniversary%'
+									AND giftstyle like '%$gifttype%'
+									AND M_F like '%$MF%'";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0){
+while($row = $result->fetch_assoc() ){
+	echo $row["giftname"]."<br>";
+}
+} else {
+	echo "0 records";
+}
+
+$conn->close();
+
 ?>
+
 
 <ul class="container-fluid margin-top-50 margin-bottom-50" style="padding:5px; background-color:black"">  </ul>
 
