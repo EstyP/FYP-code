@@ -1,7 +1,6 @@
 <?php
 include("header.php");
 include("database.php");
-include("backend_search.php");
 session_start();
 ?>
 
@@ -33,7 +32,7 @@ if ($conn->connect_error){
 	die("Connection failed: ". $conn->connect_error);
 }
 
-$sql = "select * from gifts_data
+$sql = "select distinct gift_name from user_gifts
 									WHERE years_married like '%$anniversary%'
 									AND giftstyle like '%$gifttype%'
 									AND M_F like '%$MF%'";
@@ -42,7 +41,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0){
 while($row = $result->fetch_assoc() ){
-	echo $row["giftname"]."<br>";
+	echo $row["gift_name"]."<br>";
 }
 } else {
 	echo "0 records";

@@ -34,7 +34,8 @@ include("database.php");
 
 
 <form action="search.php" method="post">
-Anniversary Year <input type="number" name="anniversary"><br>
+Anniversary Year
+<input type="number" name="anniversary"><br>
 Gift Style
 <select name="gifttype">
  <option value="Modern">Modern</option>

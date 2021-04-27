@@ -1,31 +1,26 @@
 <?php
 
+require_once("recommenditem.php");
 include("database.php");
-include("recommend.php");
 include("header.php");
 session_start();
 
-
 $gifts=mysqli_query($con,"select * from user_gifts");
 
-$matrix=array();
+$books=array();
 
 while($gift=mysqli_fetch_array($gifts))
 {
   $users=mysqli_query($con,"select username from users where id=$gift[user_id]");
   $username=mysqli_fetch_array($users);
 
-  $matrix[$username['username']]
+  $books[$username['username']]
   [$gift['gift_name']]
   =$gift['gift_rating'];
 }
 
-$users=mysqli_query($con,"select username from users where id=$_GET[id]");
-$username=mysqli_fetch_array($users);
 
-
- ?>
-
+?>
 
   <!DOCTYPE html>
   <html lang="en">
@@ -43,11 +38,6 @@ $username=mysqli_fetch_array($users);
   </html>
 
 
-
-
-
-
-
      <table class="table table-striped">
 
        <th> Gift Name </th>
@@ -55,9 +45,10 @@ $username=mysqli_fetch_array($users);
 
 
        <?php
-       $recommendation=array();
 
-       $recommendation=getRecommendation($matrix,$username['username']);
+       $recommendation =array();
+
+       $recommendation=getRecommendations($books, $username['username']);
 
        foreach($recommendation as $gift=>$rating)
        {

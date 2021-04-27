@@ -13,7 +13,7 @@
 
     if(isset($_POST['submit']))
     {
-      $result=mysqli_query($con, "insert into user_gifts(user_id,gift_name,gift_rating)values('$_SESSION[id]','$_POST[gift_name]','$_POST[gift_rating]')");
+      $result=mysqli_query($con, "insert into user_gifts(user_id,gift_name,gift_rating,giftstyle,M_F)values('$_SESSION[id]','$_POST[gift_name]','$_POST[gift_rating]','$_POST[giftstyle]','$_POST[M_F]')");
       if($result)
       {
         $flag=1;
@@ -58,6 +58,22 @@
       <div class="form-group">
         <label for="username"> Rating 1-5 </label>
         <input type="number" name="gift_rating" id="gift_rating" class="form-control" required>
+
+      </div>
+
+      <div class="form-group">
+        <label for="username"> Is the gift style Modern or Traditional? </label>
+        <select id="giftstyle" name="giftstyle">
+        <option value="Modern">Modern</option>
+        <option value="Traditional">Traditional</option>
+        </select>
+
+        <div class="form-group">
+          <label for="username"> Is this a Masculine or Feminine style gift? </label>
+          <select id="M_F" name="M_F">
+          <option value="Masculine">Masculine</option>
+          <option value="Feminine">Feminine</option>
+          </select>
 
       </div>
 
